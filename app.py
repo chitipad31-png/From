@@ -144,8 +144,8 @@ else:
     with st.form("booking_form", clear_on_submit=True):
         r1c1, r1c2, r1c3, r1c4 = st.columns([3, 2, 2, 1])
         with r1c1: full_name  = st.text_input("ชื่อ-นามสกุล *",  placeholder="สมชาย ใจดี")
-        with r1c2: nickname   = st.text_input("ชื่อเล่น *",       placeholder="ฟลุค")
-        with r1c3: student_id = st.text_input("รหัสนักศึกษา *",   placeholder="1680103619")
+        with r1c2: nickname   = st.text_input("ชื่อเล่น *",       placeholder="ฟลุ๊คเองจ้า")
+        with r1c3: student_id = st.text_input("รหัสนักศึกษา *",   placeholder="168010XXXX")
         with r1c4: seat_num   = st.text_input("เลขที่ *",          placeholder="1")
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
         submitted = st.form_submit_button(
