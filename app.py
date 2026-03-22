@@ -52,7 +52,6 @@ def get_booked_nums(df):
         return []
     return [int(x) for x in df["topic_num"].dropna().tolist()]
 
-# ── Page config ──
 st.set_page_config(page_title="จองหัวข้อรายงานกลุ่ม", page_icon="📚", layout="wide")
 
 st.markdown("""
@@ -61,33 +60,27 @@ st.markdown("""
 html, body, [class*="css"] { font-family: 'Sarabun',sans-serif; }
 .stApp { background: #f7f9fd; }
 .block-container { padding-top: 2rem !important; }
-.stTextInput label, .stSelectbox label, .stTextArea label {
-    color: #191c1f !important; font-weight: 600 !important;
-    font-size: 0.82rem !important; text-transform: uppercase !important;
-}
+.stTextInput label { color:#191c1f !important; font-weight:600 !important; font-size:0.82rem !important; text-transform:uppercase !important; }
 div[data-testid="stForm"] .stButton > button {
-    background: #003d7c; color: #fff; border: none; border-radius: 12px;
-    padding: 13px 0; font-size: 0.85rem; font-weight: 800; width: 100%;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    box-shadow: 0 4px 14px rgba(0,61,124,0.25);
+    background:#003d7c; color:#fff; border:none; border-radius:12px;
+    padding:13px 0; font-size:0.85rem; font-weight:800; width:100%;
+    letter-spacing:0.1em; text-transform:uppercase;
+    box-shadow:0 4px 14px rgba(0,61,124,0.25);
 }
-div[data-testid="stForm"] .stButton > button:hover { background: #00468c; }
+div[data-testid="stForm"] .stButton > button:hover { background:#00468c; }
 .stDownloadButton > button {
-    background: #fff !important; color: #003d7c !important;
-    border: 1.5px solid #dde3f0 !important; border-radius: 10px !important;
-    font-weight: 700 !important;
+    background:#fff !important; color:#003d7c !important;
+    border:1.5px solid #dde3f0 !important; border-radius:10px !important; font-weight:700 !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ── Load data ──
 bookings_df  = load_bookings()
 booked_nums  = get_booked_nums(bookings_df)
 total_booked = len(booked_nums)
 remaining    = 12 - total_booked
 available_options = [f"ข้อ {n}: {TOPICS[n]['title']}" for n in TOPICS if n not in booked_nums]
 
-# ── Top bar ──
 st.markdown("""
 <div style="display:flex;align-items:center;padding:0 0 20px 0;border-bottom:1px solid #e8eaf0;margin-bottom:28px;">
   <div>
@@ -97,14 +90,12 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ── Header ──
 st.markdown(f"""
 <div style="font-size:0.65rem;font-weight:800;letter-spacing:0.2em;color:#003d7c;text-transform:uppercase;margin-bottom:6px;">Booking Status</div>
 <div style="font-family:'Public Sans',sans-serif;font-size:2.2rem;font-weight:800;color:#191c1f;letter-spacing:-0.04em;line-height:1.1;margin:0 0 8px 0;">สถานะการจอง</div>
 <div style="color:#424751;font-size:0.95rem;margin:0 0 28px 0;">เลือกหัวข้อ 1 ข้อต่อคน · จองแล้วจองเลย ห้ามซ้ำ!</div>
 """, unsafe_allow_html=True)
 
-# ── Stat cards ──
 c1, c2 = st.columns(2)
 for col, label, value, color in [
     (c1, "จองแล้ว", total_booked, "#ba1a1a"),
@@ -118,7 +109,6 @@ for col, label, value, color in [
 </div>
 """, unsafe_allow_html=True)
 
-# ── Section: ฟอร์มจอง ──
 st.markdown("""
 <div style="font-size:1rem;font-weight:700;color:#191c1f;display:flex;align-items:center;gap:8px;margin-bottom:16px;">
   <span style="display:inline-block;width:4px;height:18px;background:#003d7c;border-radius:99px;"></span>
@@ -129,7 +119,6 @@ st.markdown("""
 if not available_options:
     st.warning("🎊 ทุกหัวข้อถูกจองครบแล้ว!")
 else:
-    # ── ปุ่มเลือกหัวข้อ ──
     if "selected_topic" not in st.session_state:
         st.session_state["selected_topic"] = None
 
@@ -139,14 +128,12 @@ else:
         num = int(opt.split(":")[0].replace("ข้อ","").strip())
         is_selected = st.session_state["selected_topic"] == num
         with cols[i % 3]:
-            if st.button(opt, use_container_width=True,
-                         type="primary" if is_selected else "secondary"):
+            if st.button(opt, use_container_width=True, type="primary" if is_selected else "secondary"):
                 st.session_state["selected_topic"] = num
                 st.rerun()
 
     selected_num = st.session_state["selected_topic"]
 
-    # ── คำอธิบายหัวข้อที่เลือก ──
     if selected_num and selected_num in TOPICS:
         info = TOPICS[selected_num]
         st.markdown(f"""
@@ -157,7 +144,6 @@ else:
 </div>
 """, unsafe_allow_html=True)
 
-    # ── ฟอร์มกรอกข้อมูล ──
     with st.form("booking_form", clear_on_submit=True):
         r1c1, r1c2, r1c3, r1c4 = st.columns([3, 2, 2, 1])
         with r1c1: full_name  = st.text_input("ชื่อ-นามสกุล *",  placeholder="สมชาย ใจดี")
@@ -186,7 +172,6 @@ else:
 
 st.markdown("<div style='margin:32px 0 8px 0'></div>", unsafe_allow_html=True)
 
-# ── Dashboard ──
 bookings_df = load_bookings()
 
 st.markdown("""
@@ -225,7 +210,6 @@ for num, info in TOPICS.items():
 </div>
 """, unsafe_allow_html=True)
 
-# ── Export + แก้ไข/ลบ ──
 st.markdown("<div style='margin-top:20px'></div>", unsafe_allow_html=True)
 col_dl, col_gap = st.columns([2, 5])
 with col_dl:
