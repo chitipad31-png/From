@@ -127,12 +127,10 @@ st.markdown(f"""
 # ─────────────────────────────────────────────────────────────
 # 7. Stat cards
 # ─────────────────────────────────────────────────────────────
-c1, c2, c3, c4 = st.columns(4)
+c1, c2 = st.columns(2)
 for col, label, value, color in [
-    (c1, "ทั้งหมด",      "12",           "#003d7c"),
-    (c2, "จองแล้ว",      total_booked,   "#ba1a1a"),
-    (c3, "คงเหลือ",      remaining,      "#16a34a"),
-    (c4, "ความคืบหน้า",  f"{pct}%",      "#1254a1"),
+    (c1, "จองแล้ว",  total_booked, "#ba1a1a"),
+    (c2, "คงเหลือ",  remaining,    "#16a34a"),
 ]:
     with col:
         st.markdown(f"""
@@ -142,10 +140,7 @@ for col, label, value, color in [
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("<div style='margin-top:16px'></div>", unsafe_allow_html=True)
-st.progress(total_booked / 12)
 st.markdown("<div style='margin-bottom:28px'></div>", unsafe_allow_html=True)
-
 # ─────────────────────────────────────────────────────────────
 # 8. ฟอร์มจองหัวข้อ
 # ─────────────────────────────────────────────────────────────
