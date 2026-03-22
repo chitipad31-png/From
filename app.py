@@ -285,9 +285,9 @@ else:
         with r1c1:
             full_name  = st.text_input("ชื่อ-นามสกุล *", placeholder="สมชาย ใจดี")
         with r1c2:
-            nickname   = st.text_input("ชื่อเล่น *", placeholder="ฟลุค")
+            nickname   = st.text_input("ชื่อเล่น *", placeholder="ฟลุ๊คเองจ้า")
         with r1c3:
-            student_id = st.text_input("รหัสนักศึกษา *", placeholder="1680103619")
+            student_id = st.text_input("รหัสนักศึกษา *", placeholder="168010XXXX")
         with r1c4:
             seat_num   = st.text_input("เลขที่ *", placeholder="1")
 
@@ -371,11 +371,11 @@ st.dataframe(
     height=460,
     column_config={
         "ข้อที่":        st.column_config.NumberColumn(width="small"),
-        "สถานะ":         st.column_config.TextColumn(width="medium"),
-        "หัวข้อ":        st.column_config.TextColumn(width="large"),
-        "ชื่อ-นามสกุล": st.column_config.TextColumn(width="large"),
+        "สถานะ":         st.column_config.TextColumn(width="small"),
+        "หัวข้อ":        st.column_config.TextColumn(width="medium"),
+        "ชื่อ-นามสกุล": st.column_config.TextColumn(width="medium"),
         "ชื่อเล่น":      st.column_config.TextColumn(width="small"),
-        "รหัสนักศึกษา":  st.column_config.TextColumn(width="medium"),
+        "รหัสนักศึกษา":  st.column_config.TextColumn(width="small"),
         "เลขที่":        st.column_config.TextColumn(width="small"),
     },
 )
