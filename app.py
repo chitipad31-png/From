@@ -109,6 +109,7 @@ for col, label, value, color in [
 </div>
 """, unsafe_allow_html=True)
 
+# ── ฟอร์มจอง ──
 st.markdown("""
 <div style="font-size:1rem;font-weight:700;color:#191c1f;display:flex;align-items:center;gap:8px;margin-bottom:16px;">
   <span style="display:inline-block;width:4px;height:18px;background:#003d7c;border-radius:99px;"></span>
@@ -122,28 +123,6 @@ else:
     if "selected_topic" not in st.session_state:
         st.session_state["selected_topic"] = None
 
-    st.markdown("<div style='font-size:0.82rem;font-weight:600;color:#191c1f;text-transform:uppercase;margin-bottom:10px;'>เลือกหัวข้อที่ต้องการจอง *</div>", unsafe_allow_html=True)
-    cols = st.columns(3)
-    for i, opt in enumerate(available_options):
-        num = int(opt.split(":")[0].replace("ข้อ","").strip())
-        is_selected = st.session_state["selected_topic"] == num
-        with cols[i % 3]:
-            if st.button(opt, use_container_width=True, type="primary" if is_selected else "secondary"):
-                st.session_state["selected_topic"] = num
-                st.rerun()
-
-    selected_num = st.session_state["selected_topic"]
-
-    if selected_num and selected_num in TOPICS:
-        info = TOPICS[selected_num]
-        st.markdown(f"""
-<div style="background:#fff;border-radius:16px;border:1px solid #dde3f0;padding:18px 22px;margin:12px 0 16px 0;box-shadow:0 2px 12px rgba(0,27,61,0.04);">
-  <div style="font-size:0.65rem;font-weight:800;color:#003d7c;text-transform:uppercase;letter-spacing:0.15em;">ข้อ {selected_num} · หน้าที่ของคุณ</div>
-  <div style="font-family:'Public Sans',sans-serif;font-size:1.05rem;font-weight:700;color:#191c1f;margin:4px 0 8px 0;">{info['title']}</div>
-  <div style="font-size:0.88rem;color:#424751;line-height:1.6;">{info['desc']}</div>
-</div>
-""", unsafe_allow_html=True)
-
     with st.form("booking_form", clear_on_submit=True):
         r1c1, r1c2, r1c3, r1c4 = st.columns([3, 2, 2, 1])
         with r1c1: full_name  = st.text_input("ชื่อ-นามสกุล *",  placeholder="สมชาย ใจดี")
@@ -152,6 +131,8 @@ else:
         with r1c4: seat_num   = st.text_input("เลขที่ *",          placeholder="1")
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
         submitted = st.form_submit_button("🔒  ยืนยันการจอง")
+
+    selected_num = st.session_state["selected_topic"]
 
     if submitted:
         errors = []
@@ -172,6 +153,7 @@ else:
 
 st.markdown("<div style='margin:32px 0 8px 0'></div>", unsafe_allow_html=True)
 
+# ── Dashboard ──
 bookings_df = load_bookings()
 
 st.markdown("""
@@ -203,13 +185,23 @@ for num, info in TOPICS.items():
 </div>
 """, unsafe_allow_html=True)
 
-    with st.expander(f"　📖 ดูรายละเอียดข้อ {num}"):
-        st.markdown(f"""
+    col_detail, col_book = st.columns([4, 1])
+    with col_detail:
+        with st.expander(f"　📖 ดูรายละเอียดข้อ {num}"):
+            st.markdown(f"""
 <div style="background:#f7f9ff;border-radius:10px;padding:14px 18px;font-size:0.88rem;color:#424751;line-height:1.7;border-left:3px solid #003d7c;">
   {info['desc']}
 </div>
 """, unsafe_allow_html=True)
+    with col_book:
+        if match.empty:
+            if st.button("จอง", key=f"book_{num}", use_container_width=True, type="primary"):
+                st.session_state["selected_topic"] = num
+                st.rerun()
+        else:
+            st.markdown("<div style='padding:8px 0;font-size:0.8rem;color:#727782;text-align:center'>จองแล้ว</div>", unsafe_allow_html=True)
 
+# ── Export + แก้ไข/ลบ ──
 st.markdown("<div style='margin-top:20px'></div>", unsafe_allow_html=True)
 col_dl, col_gap = st.columns([2, 5])
 with col_dl:
