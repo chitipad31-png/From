@@ -145,114 +145,76 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&family=Sarabun:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&display=swap');
+html, body, [class*="css"] { font-family: 'Sarabun', sans-serif; }
+.stApp { background: #f0f4ff; }
 
-html, body, [class*="css"] {
-    font-family: 'Inter', 'Sarabun', sans-serif;
+/* Header gradient */
+.page-header {
+    background: linear-gradient(135deg, #1e3a8a 0%, #4f46e5 60%, #7c3aed 100%);
+    border-radius: 16px;
+    padding: 28px 36px;
+    color: white;
+    margin-bottom: 24px;
 }
-.stApp { background: #f7f9fd; }
+.page-header h1 { font-size: 2rem; font-weight: 800; margin: 0 0 6px 0; }
+.page-header p  { font-size: 1rem; margin: 0; opacity: 0.85; }
 
-/* ── Page Header ── */
-.page-header .eyebrow {
-    font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 0.2em;
-    color: #003d7c;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-}
-.page-header h1 {
-    font-family: 'Public Sans', 'Sarabun', sans-serif;
-    font-size: 2rem;
-    font-weight: 800;
-    color: #191c1f;
-    letter-spacing: -0.03em;
-    margin: 0 0 6px 0;
-    line-height: 1.15;
-}
-.page-header p {
-    color: #424751;
-    font-size: 0.95rem;
-    margin: 0;
+/* Section card */
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 24px 28px;
+    box-shadow: 0 2px 16px rgba(79,70,229,0.09);
+    margin-bottom: 20px;
 }
 
-/* ── Section title ── */
+/* Section title */
 .sec-title {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    color: #191c1f;
-    border-left: 4px solid #003d7c;
+    color: #1e3a8a;
+    border-left: 4px solid #4f46e5;
     padding-left: 12px;
     margin-bottom: 16px;
 }
 
-/* ── Submit button ── */
+/* Available / booked badge in selectbox area */
+.avail-badge  { color: #16a34a; font-weight: 700; }
+.booked-badge { color: #dc2626; font-weight: 700; }
+
+/* Submit button */
 div[data-testid="stForm"] .stButton > button {
-    background: #003d7c;
-    color: #ffffff;
+    background: linear-gradient(135deg, #1e3a8a, #7c3aed);
+    color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     padding: 13px 0;
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 700;
-    font-family: 'Inter', 'Sarabun', sans-serif;
+    font-family: 'Sarabun', sans-serif;
     width: 100%;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    transition: background .2s, transform .1s;
+    letter-spacing: 0.4px;
+    transition: opacity .2s, transform .1s;
 }
 div[data-testid="stForm"] .stButton > button:hover {
-    background: #00468c;
-    transform: translateY(-1px);
+    opacity: 0.9; transform: translateY(-1px);
 }
 
-/* ── Dashboard header ── */
+/* Dashboard header row */
 .dash-header {
-    background: #ffffff;
-    color: #191c1f;
-    border-left: 5px solid #003d7c;
+    background: #e8ecfa;
+    color: #1e3a8a;
+    border-left: 5px solid #4f46e5;
     border-radius: 0 10px 10px 0;
-    padding: 12px 20px;
-    font-family: 'Public Sans', sans-serif;
+    padding: 10px 20px;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 1.05rem;
     margin-bottom: 12px;
-    box-shadow: 0 2px 12px rgba(0,27,61,0.05);
 }
 
-/* ── Progress bar ── */
-.stProgress > div > div > div { background: #003d7c; }
-
-/* ── Input labels ── */
-.stTextInput label,
-.stSelectbox label,
-.stTextArea label,
-.stFileUploader label {
-    color: #191c1f !important;
-    font-weight: 600 !important;
-    font-size: 0.875rem !important;
-}
-
-/* ── Metric cards ── */
-[data-testid="stMetric"] {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 16px 20px;
-    border: 1px solid rgba(194,198,211,0.25);
-    box-shadow: 0 4px 20px rgba(0,27,61,0.04);
-}
-[data-testid="stMetricLabel"] {
-    color: #424751 !important;
-    font-size: 0.7rem !important;
-    font-weight: 800 !important;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-[data-testid="stMetricValue"] {
-    color: #003d7c !important;
-    font-family: 'Public Sans', sans-serif !important;
-    font-weight: 800 !important;
-}
+/* Progress bar custom color */
+.stProgress > div > div > div { background: linear-gradient(90deg,#4f46e5,#7c3aed); }
 </style>
 """, unsafe_allow_html=True)
 
@@ -261,9 +223,8 @@ div[data-testid="stForm"] .stButton > button:hover {
 # ─────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="page-header">
-    <div class="eyebrow">Management Dashboard · Unilever Valuation Project</div>
     <h1>📚 ระบบจองหัวข้อรายงานกลุ่ม</h1>
-    <p>เลือกหัวข้อ 1 ข้อต่อคน · จองแล้วจองเลย ห้ามซ้ำ!</p>
+    <p>Unilever Valuation Project · เลือกหัวข้อ 1 ข้อต่อคน · จองแล้วจองเลย ห้ามซ้ำ!</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -289,7 +250,17 @@ with col_prog1:
     st.progress(total_booked / 12)
 with col_prog2:
     st.metric("จองแล้ว", f"{total_booked} ข้อ", delta=f"ว่าง {12 - total_booked} ข้อ")
-
+# ── ช่องดูคำอธิบายหัวข้อ ──
+with st.expander("🔍 ดูคำอธิบายหัวข้อทั้ง 12 ข้อ"):
+    topic_num = st.selectbox(
+        "เลือกข้อที่อยากดู",
+        options=list(TOPICS.keys()),
+        format_func=lambda x: f"ข้อ {x}: {TOPICS[x]['title']}"
+    )
+    st.info(
+        f"📌 **ข้อ {topic_num} — {TOPICS[topic_num]['title']}**\n\n"
+        f"{TOPICS[topic_num]['desc']}"
+    )
 st.divider()
 
 # ─────────────────────────────────────────────────────────────
@@ -324,9 +295,9 @@ else:
         with r1c1:
             full_name  = st.text_input("ชื่อ-นามสกุล *", placeholder="สมชาย ใจดี")
         with r1c2:
-            nickname   = st.text_input("ชื่อเล่น *", placeholder="ฟลุค")
+            nickname   = st.text_input("ชื่อเล่น *", placeholder="ฟลุ๊คเองจ้า")
         with r1c3:
-            student_id = st.text_input("รหัสนักศึกษา *", placeholder="1680103619")
+            student_id = st.text_input("รหัสนักศึกษา *", placeholder="168010XXXX")
         with r1c4:
             seat_num   = st.text_input("เลขที่ *", placeholder="1")
 
@@ -410,11 +381,11 @@ st.dataframe(
     height=460,
     column_config={
         "ข้อที่":        st.column_config.NumberColumn(width="small"),
-        "สถานะ":         st.column_config.TextColumn(width="medium"),
-        "หัวข้อ":        st.column_config.TextColumn(width="large"),
-        "ชื่อ-นามสกุล": st.column_config.TextColumn(width="large"),
+        "สถานะ":         st.column_config.TextColumn(width="small"),
+        "หัวข้อ":        st.column_config.TextColumn(width="medium"),
+        "ชื่อ-นามสกุล": st.column_config.TextColumn(width="medium"),
         "ชื่อเล่น":      st.column_config.TextColumn(width="small"),
-        "รหัสนักศึกษา":  st.column_config.TextColumn(width="medium"),
+        "รหัสนักศึกษา":  st.column_config.TextColumn(width="small"),
         "เลขที่":        st.column_config.TextColumn(width="small"),
     },
 )
@@ -426,4 +397,42 @@ st.download_button(
     data=csv_export,
     file_name=f"booking_summary_{datetime.now().strftime('%Y%m%d')}.csv",
     mime="text/csv",
+    
 )
+with st.expander("✏️ แก้ไขหรือลบรายการจอง"):
+    if bookings_df.empty:
+        st.info("ยังไม่มีข้อมูลการจอง")
+    else:
+        # เลือกแถวที่อยากแก้
+        options = [
+            f"ข้อ {row['topic_num']} — {row['nickname']} ({row['full_name']})"
+            for _, row in bookings_df.iterrows()
+        ]
+        selected = st.selectbox("เลือกรายการที่อยากแก้/ลบ", options)
+        idx = options.index(selected)
+        row = bookings_df.iloc[idx]
+
+        col1, col2 = st.columns(2)
+        with col1:
+            new_name = st.text_input("ชื่อ-นามสกุล", value=row["full_name"])
+            new_nick = st.text_input("ชื่อเล่น",      value=row["nickname"])
+        with col2:
+            new_sid  = st.text_input("รหัสนักศึกษา",  value=row["student_id"])
+            new_seat = st.text_input("เลขที่",         value=row["seat_num"])
+
+        btn1, btn2 = st.columns(2)
+        with btn1:
+            if st.button("💾 บันทึกการแก้ไข"):
+                bookings_df.at[idx, "full_name"]  = new_name.strip()
+                bookings_df.at[idx, "nickname"]   = new_nick.strip()
+                bookings_df.at[idx, "student_id"] = new_sid.strip()
+                bookings_df.at[idx, "seat_num"]   = new_seat.strip()
+                bookings_df.to_csv(CSV_FILE, index=False, encoding="utf-8-sig")
+                st.success("✅ แก้ไขเรียบร้อย!")
+                st.rerun()
+        with btn2:
+            if st.button("🗑️ ลบรายการนี้", type="primary"):
+                bookings_df = bookings_df.drop(index=idx).reset_index(drop=True)
+                bookings_df.to_csv(CSV_FILE, index=False, encoding="utf-8-sig")
+                st.success("✅ ลบเรียบร้อย!")
+                st.rerun()
