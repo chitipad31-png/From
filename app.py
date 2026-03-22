@@ -127,12 +127,18 @@ else:
 
     # ── แสดงข้อที่เลือกอยู่ ──
     if selected_num and selected_num in TOPICS:
-        st.markdown(f"""
+        col_msg, col_reset = st.columns([5, 1])
+        with col_msg:
+            st.markdown(f"""
 <div style="background:#eef4ff;border-radius:12px;border:1.5px solid #003d7c;padding:12px 18px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
   <span style="font-size:1.2rem">✅</span>
   <span style="font-size:0.9rem;font-weight:700;color:#003d7c;">เลือกข้อ {selected_num}: {TOPICS[selected_num]['title']} แล้ว — กรอกข้อมูลด้านล่างแล้วกดยืนยัน</span>
 </div>
 """, unsafe_allow_html=True)
+        with col_reset:
+            if st.button("❌ ยกเลิก", use_container_width=True):
+                st.session_state["selected_topic"] = None
+                st.rerun()
     else:
         st.markdown("""
 <div style="background:#fff8e1;border-radius:12px;border:1.5px solid #f59e0b;padding:12px 18px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
