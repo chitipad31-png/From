@@ -250,7 +250,17 @@ with col_prog1:
     st.progress(total_booked / 12)
 with col_prog2:
     st.metric("จองแล้ว", f"{total_booked} ข้อ", delta=f"ว่าง {12 - total_booked} ข้อ")
-
+# ── ช่องดูคำอธิบายหัวข้อ ──
+with st.expander("🔍 ดูคำอธิบายหัวข้อทั้ง 12 ข้อ"):
+    topic_num = st.selectbox(
+        "เลือกข้อที่อยากดู",
+        options=list(TOPICS.keys()),
+        format_func=lambda x: f"ข้อ {x}: {TOPICS[x]['title']}"
+    )
+    st.info(
+        f"📌 **ข้อ {topic_num} — {TOPICS[topic_num]['title']}**\n\n"
+        f"{TOPICS[topic_num]['desc']}"
+    )
 st.divider()
 
 # ─────────────────────────────────────────────────────────────
