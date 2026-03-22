@@ -217,21 +217,26 @@ for num, info in TOPICS.items():
         sub = ""
     else:
         r = match.iloc[0]
-        name = r.get("nickname","—")
-        seat = r.get("seat_num","—")
+        name = r.get("nickname", "—")
+        seat = r.get("seat_num", "—")
         badge = f'<span style="display:inline-flex;align-items:center;gap:6px;background:rgba(186,26,26,0.07);border-radius:10px;padding:5px 12px;font-size:0.75rem;font-weight:700;color:#93000a;white-space:nowrap"><span style="width:7px;height:7px;border-radius:50%;background:#ba1a1a;display:inline-block;flex-shrink:0"></span>จองแล้ว · {name} เลขที่ {seat}</span>'
-        sub = f'<div style="font-size:0.75rem;color:#727782;margin-top:2px">{name} · เลขที่ {seat}</div>'
+        sub = f'<span style="font-size:0.75rem;color:#727782;margin-left:6px;">· {name} เลขที่ {seat}</span>'
 
     st.markdown(f"""
-<div style="background:#fff;border-radius:14px;border:1px solid #eaecf2;padding:14px 18px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 6px rgba(0,27,61,0.03);">
-  <div style="display:flex;align-items:center;gap:14px;">
-    <div style="width:36px;height:36px;border-radius:50%;background:#eef2fb;display:flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:800;color:#003d7c;flex-shrink:0">{num}</div>
-    <div>
-      <div style="font-size:0.92rem;font-weight:600;color:#191c1f">{info['title']}</div>
-      {sub}
-    </div>
-  </div>
+<div style="background:#fff;border-radius:14px;border:1px solid #eaecf2;padding:14px 18px;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 6px rgba(0,27,61,0.03);">
+  <span style="display:inline-flex;align-items:center;gap:14px;">
+    <span style="width:36px;height:36px;border-radius:50%;background:#eef2fb;display:inline-flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:800;color:#003d7c;flex-shrink:0">{num}</span>
+    <span style="font-size:0.92rem;font-weight:600;color:#191c1f">{info['title']}{sub}</span>
+  </span>
   {badge}
+</div>
+""", unsafe_allow_html=True)
+
+    # ปุ่มดูรายละเอียด (Streamlit native — ไม่ถูก block)
+    with st.expander(f"　　　　　📖 ดูรายละเอียดข้อ {num}"):
+        st.markdown(f"""
+<div style="background:#f7f9ff;border-radius:10px;padding:14px 18px;font-size:0.88rem;color:#424751;line-height:1.7;border-left:3px solid #003d7c;">
+  {info['desc']}
 </div>
 """, unsafe_allow_html=True)
 
