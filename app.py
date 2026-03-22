@@ -387,4 +387,42 @@ st.download_button(
     data=csv_export,
     file_name=f"booking_summary_{datetime.now().strftime('%Y%m%d')}.csv",
     mime="text/csv",
+    
 )
+with st.expander("✏️ แก้ไขหรือลบรายการจอง"):
+    if bookings_df.empty:
+        st.info("ยังไม่มีข้อมูลการจอง")
+    else:
+        # เลือกแถวที่อยากแก้
+        options = [
+            f"ข้อ {row['topic_num']} — {row['nickname']} ({row['full_name']})"
+            for _, row in bookings_df.iterrows()
+        ]
+        selected = st.selectbox("เลือกรายการที่อยากแก้/ลบ", options)
+        idx = options.index(selected)
+        row = bookings_df.iloc[idx]
+
+        col1, col2 = st.columns(2)
+        with col1:
+            new_name = st.text_input("ชื่อ-นามสกุล", value=row["full_name"])
+            new_nick = st.text_input("ชื่อเล่น",      value=row["nickname"])
+        with col2:
+            new_sid  = st.text_input("รหัสนักศึกษา",  value=row["student_id"])
+            new_seat = st.text_input("เลขที่",         value=row["seat_num"])
+
+        btn1, btn2 = st.columns(2)
+        with btn1:
+            if st.button("💾 บันทึกการแก้ไข"):
+                bookings_df.at[idx, "full_name"]  = new_name.strip()
+                bookings_df.at[idx, "nickname"]   = new_nick.strip()
+                bookings_df.at[idx, "student_id"] = new_sid.strip()
+                bookings_df.at[idx, "seat_num"]   = new_seat.strip()
+                bookings_df.to_csv(CSV_FILE, index=False, encoding="utf-8-sig")
+                st.success("✅ แก้ไขเรียบร้อย!")
+                st.rerun()
+        with btn2:
+            if st.button("🗑️ ลบรายการนี้", type="primary"):
+                bookings_df = bookings_df.drop(index=idx).reset_index(drop=True)
+                bookings_df.to_csv(CSV_FILE, index=False, encoding="utf-8-sig")
+                st.success("✅ ลบเรียบร้อย!")
+                st.rerun()
