@@ -123,6 +123,24 @@ else:
     if "selected_topic" not in st.session_state:
         st.session_state["selected_topic"] = None
 
+    selected_num = st.session_state["selected_topic"]
+
+    # ── แสดงข้อที่เลือกอยู่ ──
+    if selected_num and selected_num in TOPICS:
+        st.markdown(f"""
+<div style="background:#eef4ff;border-radius:12px;border:1.5px solid #003d7c;padding:12px 18px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+  <span style="font-size:1.2rem">✅</span>
+  <span style="font-size:0.9rem;font-weight:700;color:#003d7c;">เลือกข้อ {selected_num}: {TOPICS[selected_num]['title']} แล้ว — กรอกข้อมูลด้านล่างแล้วกดยืนยัน</span>
+</div>
+""", unsafe_allow_html=True)
+    else:
+        st.markdown("""
+<div style="background:#fff8e1;border-radius:12px;border:1.5px solid #f59e0b;padding:12px 18px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+  <span style="font-size:1.2rem">👇</span>
+  <span style="font-size:0.9rem;font-weight:700;color:#92400e;">กดปุ่ม "จอง" ที่หัวข้อด้านล่างก่อน แล้วค่อยกรอกข้อมูล</span>
+</div>
+""", unsafe_allow_html=True)
+
     with st.form("booking_form", clear_on_submit=True):
         r1c1, r1c2, r1c3, r1c4 = st.columns([3, 2, 2, 1])
         with r1c1: full_name  = st.text_input("ชื่อ-นามสกุล *",  placeholder="สมชาย ใจดี")
@@ -130,9 +148,10 @@ else:
         with r1c3: student_id = st.text_input("รหัสนักศึกษา *",   placeholder="1680103619")
         with r1c4: seat_num   = st.text_input("เลขที่ *",          placeholder="1")
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
-        submitted = st.form_submit_button("🔒  ยืนยันการจอง")
-
-    selected_num = st.session_state["selected_topic"]
+        submitted = st.form_submit_button(
+            "🔒  ยืนยันการจอง" if selected_num else "⬇️  เลือกหัวข้อก่อนกดจอง",
+            disabled=not selected_num
+        )
 
     if submitted:
         errors = []
@@ -140,7 +159,6 @@ else:
         if not nickname.strip():   errors.append("ชื่อเล่น")
         if not student_id.strip(): errors.append("รหัสนักศึกษา")
         if not seat_num.strip():   errors.append("เลขที่")
-        if not selected_num:       errors.append("หัวข้อที่จอง")
         if errors:
             st.error(f"⚠️ กรุณากรอกให้ครบ: **{', '.join(errors)}**")
         else:
@@ -150,8 +168,6 @@ else:
             st.success(f"✅ **{nickname.strip()}** จองข้อ {selected_num}: **{TOPICS[selected_num]['title']}** สำเร็จแล้ว!")
             st.balloons()
             st.rerun()
-
-st.markdown("<div style='margin:32px 0 8px 0'></div>", unsafe_allow_html=True)
 
 # ── Dashboard ──
 bookings_df = load_bookings()
