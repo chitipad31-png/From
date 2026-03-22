@@ -211,7 +211,10 @@ for num, info in TOPICS.items():
 """, unsafe_allow_html=True)
     with col_book:
         if match.empty:
-            if st.button("จอง", key=f"book_{num}", use_container_width=True, type="primary"):
+            is_selected = st.session_state.get("selected_topic") == num
+            label = "✅ เลือกแล้ว" if is_selected else "จอง"
+            btn_type = "primary" if not is_selected else "secondary"
+            if st.button(label, key=f"book_{num}", use_container_width=True, type=btn_type):
                 st.session_state["selected_topic"] = num
                 st.rerun()
         else:
