@@ -420,8 +420,7 @@ bookings_df = load_bookings()
 
 st.markdown('<div class="dash-header">รายชื่อหัวข้อและสถานะ</div>', unsafe_allow_html=True)
 
-# build rows
-rows_html = ""
+# build rows — render ทีละ row
 for num, info in TOPICS.items():
     match = bookings_df[bookings_df["topic_num"].astype(str) == str(num)]
     if match.empty:
@@ -429,12 +428,12 @@ for num, info in TOPICS.items():
         person = ""
     else:
         row = match.iloc[0]
-        name = row.get("nickname","—")
-        seat = row.get("seat_num","—")
+        name = row.get("nickname", "—")
+        seat = row.get("seat_num", "—")
         badge = f'<div class="badge-booked"><div class="dot red"></div>จองแล้ว</div>'
         person = f'<div class="topic-row-sub">{name} · เลขที่ {seat}</div>'
 
-    rows_html += f"""
+    st.markdown(f"""
     <div class="topic-row">
         <div class="topic-row-left">
             <div class="topic-num-bubble">{num}</div>
@@ -445,9 +444,7 @@ for num, info in TOPICS.items():
         </div>
         {badge}
     </div>
-    """
-
-st.markdown(rows_html, unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────
 # 10. Export + แก้ไข/ลบ
