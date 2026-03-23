@@ -184,8 +184,8 @@ for num, info in TOPICS.items():
         with st.form(f"booking_form_{num}", clear_on_submit=True):
             r1c1, r1c2, r1c3, r1c4 = st.columns([3,2,2,1])
             with r1c1: full_name  = st.text_input("ชื่อ-นามสกุล *",  placeholder="สมชาย ใจดี")
-            with r1c2: nickname   = st.text_input("ชื่อเล่น *",       placeholder="ฟลุค")
-            with r1c3: student_id = st.text_input("รหัสนักศึกษา *",   placeholder="1680103619")
+            with r1c2: nickname   = st.text_input("ชื่อเล่น *",       placeholder="ฟลุคเอง")
+            with r1c3: student_id = st.text_input("รหัสนักศึกษา *",   placeholder="168010xxxx")
             with r1c4: seat_num   = st.text_input("เลขที่ *",          placeholder="1")
             col_cancel, col_submit = st.columns([1,3])
             with col_cancel:
