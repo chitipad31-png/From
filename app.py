@@ -206,25 +206,21 @@ for num, info in TOPICS.items():
             if errors:
                 st.error(f"⚠️ กรุณากรอกให้ครบ: **{', '.join(errors)}**")
             else:
-                # เช็คว่าหัวข้อนี้ถูกจองไปแล้วไหม
-                already_booked = supabase.table("bookings")\
-                    .select("id").eq("topic_num", num).execute()
-                # เช็คว่ารหัสนักศึกษานี้จองไปแล้วไหม
-                already_student = supabase.table("bookings")\
-                    .select("topic_title").eq("student_id", student_id.strip()).execute()
-
-                if already_booked.data:
-                    st.error(f"⚠️ ข้อ {num} ถูกจองไปแล้ว! รีเฟรชหน้าแล้วลองใหม่ครับ")
-                elif already_student.data:
-                    booked_title = already_student.data[0]["topic_title"]
-                    st.error(f"⚠️ รหัส {student_id.strip()} จองไปแล้ว ({booked_title}) — 1 คนจองได้แค่ 1 ข้อครับ")
-                else:
+                try:
                     save_booking(num, full_name.strip(), nickname.strip(),
                                  student_id.strip(), seat_num.strip())
                     st.session_state["selected_topic"] = None
                     st.success(f"✅ **{nickname.strip()}** จองข้อ {num}: **{info['title']}** สำเร็จแล้ว!")
                     st.balloons()
                     st.rerun()
+                except Exception as e:
+                    err = str(e)
+                    if "unique_topic_num" in err:
+                        st.error("⚠️ มีคนจองข้อนี้ไปพอดี! รีเฟรชแล้วเลือกข้อใหม่ครับ")
+                    elif "unique_student_id" in err:
+                        st.error("⚠️ รหัสนักศึกษานี้จองไปแล้ว — 1 คนจองได้แค่ 1 ข้อครับ")
+                    else:
+                        st.error("⚠️ เกิดข้อผิดพลาด กรุณาลองใหม่")
 st.divider()
 
 # ── Export + แก้ไข/ลบ ──
